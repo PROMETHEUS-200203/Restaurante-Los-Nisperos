@@ -348,32 +348,72 @@ function initializeDiagrams() {
     });
 }
 
-// Galería DFD corregida
+// Galería DFD con múltiples niveles
+const DFD_IMAGES = [
+    "img/diagramas/Analisis_Estructurado-Nivel0.drawio.png",
+    "img/diagramas/Analisis_Estructurado-Nivel1.drawio.png",
+    "img/diagramas/Analisis_Estructurado-Nivel2.drawio.png",
+    "img/diagramas/Analisis_Estructurado-Nivel3.drawio.png"
+];
+
+let currentDFDIndex = 0;
+let dfdZoom = 1;
+
 function loadDFDImage() {
     const img = document.getElementById('dfd-gallery-img');
     const indexEl = document.getElementById('dfd-index');
     const container = document.getElementById('dfd-gallery-container');
 
-    if (!img || !indexEl) return;
-
     img.src = DFD_IMAGES[currentDFDIndex];
     indexEl.textContent = `${currentDFDIndex + 1}/${DFD_IMAGES.length}`;
 
     img.onload = () => {
-        // Resetear a 100%
-        dfdZoom = 1;
-        img.style.transform = 'scale(1)';
-        img.style.transformOrigin = 'center center';
-        const zoomInfo = document.getElementById('dfd-zoom-info');
-        if (zoomInfo) zoomInfo.textContent = '100%';
-        container.style.padding = '20px';
+        // Mostrar la imagen al 100% (sin escalar)
+        resetDFDGallery();
 
-        // Centrar la imagen
-        setTimeout(() => {
-            container.scrollLeft = (img.offsetWidth - container.clientWidth) / 2;
-            container.scrollTop = (img.offsetHeight - container.clientHeight) / 2;
-        }, 100);
+        // Centrar horizontal y verticalmente la imagen al cargar
+        requestAnimationFrame(() => {
+            container.scrollLeft = (img.width - container.clientWidth) / 2;
+            container.scrollTop = (img.height - container.clientHeight) / 2;
+        });
     };
+}
+
+
+function nextDFD() {
+    currentDFDIndex = (currentDFDIndex + 1) % DFD_IMAGES.length;
+    loadDFDImage();
+}
+
+function prevDFD() {
+    currentDFDIndex = (currentDFDIndex - 1 + DFD_IMAGES.length) % DFD_IMAGES.length;
+    loadDFDImage();
+}
+
+function zoomDFDGallery(factor) {
+    const img = document.getElementById('dfd-gallery-img');
+    const container = document.getElementById('dfd-gallery-container');
+    const zoomInfo = document.getElementById('dfd-zoom-info');
+    
+    dfdZoom *= factor;
+    dfdZoom = Math.max(0.3, Math.min(dfdZoom, 3));
+    
+    img.style.transform = `scale(${dfdZoom})`;
+    zoomInfo.textContent = Math.round(dfdZoom * 100) + '%';
+    
+    // Agregar padding para scroll completo
+    const imgWidth = img.naturalWidth * dfdZoom;
+    const imgHeight = img.naturalHeight * dfdZoom;
+    const containerWidth = container.clientWidth;
+    const containerHeight = container.clientHeight;
+    
+    if (imgWidth > containerWidth || imgHeight > containerHeight) {
+        const paddingX = Math.max(0, (imgWidth - containerWidth) / 2 + 50);
+        const paddingY = Math.max(0, (imgHeight - containerHeight) / 2 + 50);
+        container.style.padding = `${paddingY}px ${paddingX}px`;
+    } else {
+        container.style.padding = '20px';
+    }
 }
 
 function resetDFDGallery() {
@@ -381,37 +421,57 @@ function resetDFDGallery() {
     const container = document.getElementById('dfd-gallery-container');
     const zoomInfo = document.getElementById('dfd-zoom-info');
     
-    if (!img || !container) return;
-    
     dfdZoom = 1;
     img.style.transform = 'scale(1)';
-    img.style.transformOrigin = 'center center';
-    if (zoomInfo) zoomInfo.textContent = '100%';
+    zoomInfo.textContent = '100%';
     container.style.padding = '20px';
-    
-    // Centrar
-    setTimeout(() => {
-        container.scrollLeft = (img.offsetWidth - container.clientWidth) / 2;
-        container.scrollTop = (img.offsetHeight - container.clientHeight) / 2;
-    }, 50);
+    container.scrollLeft = 0;
+    container.scrollTop = 0;
 }
 
 function fitDFDGallery() {
-    resetDFDGallery();
+    const container = document.getElementById('dfd-gallery-container');
+    const img = document.getElementById('dfd-gallery-img');
+    const zoomInfo = document.getElementById('dfd-zoom-info');
+    
+    if (!img || !container || !img.naturalWidth) return;
+    
+    const containerWidth = container.clientWidth - 40;
+    const imgWidth = img.naturalWidth;
+    
+    if (imgWidth > containerWidth) {
+        const scale = containerWidth / imgWidth;
+        dfdZoom = scale;
+        img.style.transform = `scale(${scale})`;
+        zoomInfo.textContent = Math.round(scale * 100) + '%';
+        container.style.padding = '20px';
+    } else {
+        resetDFDGallery();
+    }
 }
 
-// Llamar inicialización cuando el DOM esté listo
+// Atajos de teclado para la galería DFD
+document.addEventListener('keydown', function(e) {
+    const activeSection = document.querySelector('.content-section.active');
+    if (activeSection && activeSection.id === 'analisis-estructurado') {
+        if (e.key === 'ArrowRight') nextDFD();
+        else if (e.key === 'ArrowLeft') prevDFD();
+        else if (e.key === '+' || e.key === '=') zoomDFDGallery(1.2);
+        else if (e.key === '-') zoomDFDGallery(0.8);
+        else if (e.key === '0') resetDFDGallery();
+        else if (e.key.toLowerCase() === 'f') fitDFDGallery();
+    }
+});
+
+// Cargar primera imagen al iniciar
 document.addEventListener('DOMContentLoaded', function() {
-    // Inicializar todos los diagramas
     setTimeout(() => {
-        initializeDiagrams();
-        
-        // Cargar primera imagen DFD
         if (document.getElementById('dfd-gallery-img')) {
             loadDFDImage();
         }
-    }, 200);
+    }, 100);
 });
+
 
 // Reinicializar cuando cambies de sección
 function showSection(sectionId) {
