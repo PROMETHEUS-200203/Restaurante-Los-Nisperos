@@ -1,3 +1,4 @@
 # Ignorar videos grandes
 video/
 *.mp4
+*.MP4
