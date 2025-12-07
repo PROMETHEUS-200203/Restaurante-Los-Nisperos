@@ -61,6 +61,12 @@
             </a>
         </li>
         <li class="nav-item">
+            <a href="#" class="nav-link" data-section="UML" onclick="showSection('UML', this)">
+                <span class="nav-icon"><i class="fas fa-cubes"></i></span>
+                <span>DIAGRAMAS UML Lenguaje de Modelado Unificado</span>
+            </a>
+        </li>
+        <li class="nav-item">
             <a href="#" class="nav-link" data-section="video" onclick="showSection('video', this)">
                 <span class="nav-icon"><i class="fas fa-video"></i></span>
                 <span>VIDEO</span>
@@ -539,7 +545,104 @@
         </p>
     </div>
 </section>
+<!-- ---------------------------------------Diagramas uml -------------------------------------------->
 
+<section id="UML" class="content-section">
+    <div class="page-header">
+        <h2><i class="fa-solid fa-cubes"></i> Diagramas de Lenguaje de Modelado Unificado</h2>
+        <p>Diagrama de Caso de Uso de Sistema y de Negocios</p>
+    </div>
+    
+    <div class="card">
+        <h3><i class="fa-solid fa-diagram-project"></i> Diagrama de Caso de Uso de Sistema</h3>
+        <label class="upload-area" onclick="document.getElementById('diagram-poo').click()">
+            <div class="upload-icon"><i class="fa-solid fa-image"></i></div>
+        </label>
+        
+        <div id="preview-poo" class="diagram-placeholder">
+            <div class="diagram-viewer" id="viewer-uml">
+                <div class="diagram-controls">
+                    <button class="diagram-btn" onclick="zoomDiagram('viewer-uml', 1.2)" title="Acercar">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i>
+                    </button>
+                    <button class="diagram-btn" onclick="zoomDiagram('viewer-uml', 0.8)" title="Alejar">
+                        <i class="fa-solid fa-magnifying-glass-minus"></i>
+                    </button>
+                    <button class="diagram-btn" onclick="resetDiagram('viewer-uml')" title="Restaurar tamaño original">
+                        <i class="fa-solid fa-rotate-right"></i> Restaurar
+                    </button>
+                    <button class="diagram-btn" onclick="fitDiagram('viewer-uml')" title="Ajustar al contenedor">
+                        <i class="fa-solid fa-maximize"></i> Ajustar
+                    </button>
+                    <div class="zoom-info" id="zoom-info-uml">100%</div>
+                </div>
+                
+                <div class="diagram-container" id="container-uml">
+                    <img 
+                        id="img-uml" 
+                        src="img/diagramas/CUS.drawio.png" 
+                        alt="Diagrama de Clases UML"
+                        onload="fitDiagram('viewer-uml')"
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3><i class="fa-solid fa-pen-to-square"></i> Caracteristicas del Diseño CUS</h3>
+        <ul style="margin-top: 1rem; line-height: 1.8">
+            <li><strong>Caso de uso:</strong> Gestiona la información de usuarios y sus credenciales de acceso para tomar pedidos ya sea presencialmente o virtula por la pltaforma.</li>
+            <li><strong>Lista de actores:</strong> Cliente, mesero, repartidor, proveedor y encargado.</li>
+            <li><strong>Proposito:</strong> Registrar digitalmente el pedido del cliente en el sistema para mejorar la rapidez, control y trazabilidad de los pedidos.</li>
+            <li><strong>Resumen:</strong> Almacena información del menú y verifica disponibilidad de ingredientes.</li>
+            <li><strong>Tipo:</strong>Primario</li>
+        </ul>
+    </div>
+
+    <div id="preview-poo" class="diagram-placeholder">
+            <h3><i class="fa-solid fa-diagram-project"></i> Diagrama de Caso de Uso de Negocios</h3>
+            <div class="diagram-viewer" id="viewer-uml">
+                <div class="diagram-controls">
+                    <button class="diagram-btn" onclick="zoomDiagram('viewer-uml', 1.2)" title="Acercar">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i>
+                    </button>
+                    <button class="diagram-btn" onclick="zoomDiagram('viewer-uml', 0.8)" title="Alejar">
+                        <i class="fa-solid fa-magnifying-glass-minus"></i>
+                    </button>
+                    <button class="diagram-btn" onclick="resetDiagram('viewer-uml')" title="Restaurar tamaño original">
+                        <i class="fa-solid fa-rotate-right"></i> Restaurar
+                    </button>
+                    <button class="diagram-btn" onclick="fitDiagram('viewer-uml')" title="Ajustar al contenedor">
+                        <i class="fa-solid fa-maximize"></i> Ajustar
+                    </button>
+                    <div class="zoom-info" id="zoom-info-uml">100%</div>
+                </div>
+                
+                <div class="diagram-container" id="container-uml">
+                    <img 
+                        id="img-uml" 
+                        src="img/diagramas/CUN.drawio.png" 
+                        alt="Diagrama de Clases UML"
+                        onload="fitDiagram('viewer-uml')"
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3><i class="fa-solid fa-pen-to-square"></i> Caracteristicas del Diseño CUN</h3>
+        <ul style="margin-top: 1rem; line-height: 1.8">
+            <li><strong>Caso de uso:</strong> Gestiona la información de usuarios y sus credenciales de acceso para tomar pedidos ya sea presencialmente o virtula por la pltaforma.</li>
+            <li><strong>Lista de actores:</strong> Cliente, mesero, repartidor, proveedor y encargado.</li>
+            <li><strong>Proposito:</strong> Registrar digitalmente el pedido del cliente en el sistema para mejorar la rapidez, control y trazabilidad de los pedidos.</li>
+            <li><strong>Resumen:</strong> Almacena información del menú y verifica disponibilidad de ingredientes.</li>
+            <li><strong>Tipo:</strong>Primario</li>
+        </ul>
+    </div>
+</section>
+<!-- ----------------------------------------------------------------------------------->
 
         <!-- VIDEO -->
         <!-- VIDEO -->

@@ -339,6 +339,7 @@ function initializeDiagrams() {
         'viewer-er',
         'viewer-estados',
         'viewer-poo',
+        'viewer-uml',
         'viewer-casos-uso'
     ];
 
